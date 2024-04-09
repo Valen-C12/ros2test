@@ -50,4 +50,21 @@ ament_export_dependencies(rosidl_default_runtime)
 #   ${srv_files}
 # )
 
+# Build the publisher
+find_package(rclcpp REQUIRED)
+add_executable(publish_address_book src/publish_address_book.cpp)
+ament_target_dependencies(publish_address_book rclcpp)
+install(
+  TARGETS
+  publish_address_book
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Link against the interface
+# This CMake code is only required when you want to use interfaces
+# in the same package as the one in which they are defined
+rosidl_get_typesupport_target(cpp_typesupport_target
+  ${PROJECT_NAME} rosidl_typesupport_cpp)
+target_link_libraries(publish_address_book "${cpp_typesupport_target}")
+
 ament_package()
