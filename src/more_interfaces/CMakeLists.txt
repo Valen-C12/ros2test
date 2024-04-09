@@ -23,4 +23,31 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+find_package(rosidl_default_generators REQUIRED)
+
+set(msg_files
+  "msg/AddressBook.msg"
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+
+# can neatly list all of your interfaces, and generate all lists at once
+#
+# set(msg_files
+#   "msg/Message1.msg"
+#   "msg/Message2.msg"
+# )
+# set(srv_files
+#   "srv/Service1.srv"
+#   "srv/Service2.srv"
+# )
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   ${msg_files}
+#   ${srv_files}
+# )
+
 ament_package()
