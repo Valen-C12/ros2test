@@ -3,37 +3,34 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, GroupAction
+from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import PushRosNamespace
 
 
 def generate_launch_description():
-    turtlesim_world = IncludeLaunchDescription(
+    turtlesim_world_1 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("launch_tutorial"), "launch"),
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
                 "/turtlesim_world.launch.py",
             ]
-        )
+        ),
+        launch_arguments={"namespace": "turtlesim1"}.items(),
     )
-    turtlesim_world_1 = GroupAction(
-        actions=[
-            PushRosNamespace("turtlesim1"),
-            turtlesim_world,
-        ]
-    )
-    turtlesim_world_2 = GroupAction(
-        actions=[
-            PushRosNamespace("turtlesim2"),
-            turtlesim_world,
-        ]
+    turtlesim_world_2 = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
+                "/turtlesim_world.launch.py",
+            ]
+        ),
+        launch_arguments={"namespace": "turtlesim2"}.items(),
     )
 
     broadcaster_listener_nodes = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("launch_tutorial"), "launch"),
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
                 "/broadcaster_listener.launch.py",
             ]
         ),
@@ -43,7 +40,7 @@ def generate_launch_description():
     mimic_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("launch_tutorial"), "launch"),
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
                 "/mimic.launch.py",
             ]
         )
@@ -52,7 +49,7 @@ def generate_launch_description():
     fixed_frame_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("launch_tutorial"), "launch"),
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
                 "/fixed_broadcaster.launch.py",
             ]
         )
@@ -61,7 +58,7 @@ def generate_launch_description():
     rviz_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("launch_tutorial"), "launch"),
+                os.path.join(get_package_share_directory("py_launch"), "launch"),
                 "/turtlesim_rviz.launch.py",
             ]
         )
